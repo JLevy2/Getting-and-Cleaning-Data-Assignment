@@ -1,8 +1,8 @@
-# Getting and cleaning Data Course Project
 ____________________________________________________________________________________________________
-#1. Merge the training and the test sets to create one data set.
+#1. Merge the training and the test sets to create one data set.- START
+____________________________________________________________________________________________________
 
-#All training and datasets provided were moved into one folder. 
+#All training and test and datasets must be located in one folder. 
 
 #load in all files to use for this assignment
 #---------------
@@ -34,13 +34,19 @@ mergedata<-data.frame(rbind(TestData,TrainData))
 #Check that this worked. The column number is conserved but the rows = sum (train + test set rows) - looks good
 head(mergedata)
 tail(mergedata)
+
 #add an identifier for the merged dataset to specify trainig or test set. Check  - looks good
 mergedata[564]<-DataID
 head(mergedata)
 
 ____________________________________________________________________________________________________
-2. Extracts only the measurements on the mean and standard deviation for each measurement.
+#1. Merge the training and the test sets to create one data set.- END
+____________________________________________________________________________________________________
 
+
+____________________________________________________________________________________________________
+#2. Extract only the measurements on the mean and standard deviation for each measurement - START
+____________________________________________________________________________________________________
 # find columns with names that contain mean in the features file. 
 features
 featuresMean <- grep(".*mean.*", features[,2])
@@ -76,9 +82,12 @@ select.me
 mergedata<-mergedata[,select.me]
 head(mergedata)
 tail(mergedata)
-___________________________________________________________________________________
+____________________________________________________________________________________________________
+#2. Extract only the measurements on the mean and standard deviation for each measurement - END
+____________________________________________________________________________________________________
+
 _______________________________________________________________________________________________
-3. Uses descriptive activity names to name the activities in the data set
+#3. Uses descriptive activity names to name the activities in the data set- START
 _______________________________________________________________________________________________
 #The descriptive activity names are in the activy_lables.txt document that was saved as labels in step 1.
 #This variable Links the class labels with their activity name. 
@@ -96,15 +105,25 @@ mergedata$activity[mergedata$activity==6] <- "Laying"
 #Check - looks good
 mergedata$activity 
 head(mergedata$activity)
+_______________________________________________________________________________________________
+#3. Uses descriptive activity names to name the activities in the data set- END
+_______________________________________________________________________________________________
 
-_______________________________________________________________________________________________
-4. Appropriately labels the data set with descriptive variable names.
-_______________________________________________________________________________________________
+_____________________________________________________________________________________________
+4. Appropriately labels the data set with descriptive variable names. - START
+_____________________________________________________________________________________________
 #The variable names are provided in the features vector
 # This was completed in step 2 and used to check that only variables with the name mean and std remained in the dataset
 colnames(mergedata)
-__________________________________________________________________________________
-5. From the data set in step 4, create a second, independent tidy data set with the average of each variable for each activity and each subject.
+
+
+_____________________________________________________________________________________________
+4. Appropriately labels the data set with descriptive variable names. - END
+_____________________________________________________________________________________________
+_____________________________________________________________________________________________
+5. From the data set in step 4, create a second, independent tidy data set with the average 
+of each variable for each activity and each subject. - START
+______________________________________________________________________________________________
 
 newdata<-aggregate(mergedata,by=list(activity = mergedata$activity,subject = mergedata$subject), FUN=mean, na.action = na.omit)
 #remove the last two columns that do not contain measured information
@@ -125,4 +144,9 @@ head(newdata[1:6,1:6])
 write.table(newdata, "tidy_data.txt",row.names=FALSE)
 
 _______________________________________________________________________________________
+
+5. From the data set in step 4, create a second, independent tidy data set with the average 
+of each variable for each activity and each subject. - END
+______________________________________________________________________________________________
+
 
